@@ -1,0 +1,3 @@
+= Rails4JqueryUpload
+
+This project rocks and uses MIT-LICENSE.
