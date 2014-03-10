@@ -7,16 +7,16 @@ require "rails4_jquery_upload/version"
 Gem::Specification.new do |s|
   s.name        = "rails4_jquery_upload"
   s.version     = Rails4JqueryUpload::VERSION
-  s.authors     = ["TODO: Your name"]
-  s.email       = ["TODO: Your email"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Rails4JqueryUpload."
-  s.description = "TODO: Description of Rails4JqueryUpload."
+  s.authors     = ["Alexander Huber", "Tilo Dietrich"]
+  s.email       = ["alih83@gmx.de", "tilodietrich@posteo.de"]
+  s.summary     = "jQuery Fileuploader for Rails 4"
+  s.description = ""
   s.license     = "MIT"
 
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
 
   s.add_dependency "rails", "~> 4.1.0.rc1"
 
+  s.add_development_dependency "rspec-rails"
   s.add_development_dependency "pg"
 end
