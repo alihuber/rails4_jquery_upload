@@ -29,7 +29,7 @@ module Rails4JqueryUpload
 
 
     def buttonbar(engine_mounted_to, target_model, auto_upload)
-      "<div class='buttonbar'>
+      "<div class='jquery-upload-buttonbar'>
          <span class='btn btn-success btn-file'>
            <span class='glyphicon glyphicon-plus'></span>" +
       t("add_files") +

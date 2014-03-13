@@ -16,8 +16,6 @@ gemspec
 
 gem "haml-rails"
 gem "bootstrap-sass"
-gem "rails-assets-jquery"
-gem "rails-assets-jquery-ui"
 gem "rails-assets-blueimp-load-image"
 gem "rails-assets-blueimp-canvas-to-blob"
 gem "rails-assets-blueimp-file-upload"
