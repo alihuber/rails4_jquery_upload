@@ -1,4 +1,5 @@
 source "https://rubygems.org"
+source "https://rails-assets.org"
 
 # Declare your gem's dependencies in rails4_jquery_upload.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
@@ -12,3 +13,17 @@ gemspec
 
 # To use debugger
 # gem 'debugger'
+
+gem "haml-rails"
+gem "bootstrap-sass"
+gem "rails-assets-jquery"
+gem "rails-assets-jquery-ui"
+gem "rails-assets-jquery-ujs-standalone"
+gem "rails-assets-blueimp-load-image"
+gem "rails-assets-blueimp-canvas-to-blob"
+gem "rails-assets-blueimp-file-upload"
+gem "rails-assets-blueimp-tmpl"
+gem "jquery-turbolinks"
+
+gem "carrierwave"
+gem "mini_magick"

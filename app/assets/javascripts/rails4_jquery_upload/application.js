@@ -10,4 +10,17 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require jquery
+//= require jquery.turbolinks
+//= require jquery_ujs
+//= require jquery.ui.progressbar
+//= require bootstrap
+//= require blueimp-tmpl
+//= require blueimp-load-image
+//= require blueimp-canvas-to-blob
+//= require blueimp-file-upload/jquery.fileupload
+//= require blueimp-file-upload/jquery.fileupload-process
+//= require blueimp-file-upload/jquery.fileupload-image
+//= require blueimp-file-upload/jquery.fileupload-ui
+//= require_self
 //= require_tree .

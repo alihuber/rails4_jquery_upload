@@ -1,0 +1,13 @@
+.row
+  .col-md-6
+    = f.label :title
+    = f.text_field :title, class: "form-control"
+    = f.label :description
+    = f.text_field :description, class: "form-control"
+    = f.label :attachments
+    %br
+
+.row
+  .col-md-8
+    = jquery_fileupload("/rails4_jquery_upload", "attachment", "file")
+

@@ -16,11 +16,17 @@ Gem::Specification.new do |s|
   s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
   s.add_dependency "rails",        "~> 4.1.0-rc1"
-  s.add_dependency "bootstrap-sass"
   s.add_dependency "coffee-rails", "~> 4.0.1"
-  s.add_dependency "jquery-rails"
   s.add_dependency "sass-rails",   "~> 4.0.1"
   s.add_dependency "uglifier",     "~> 2.4"
+
+  s.add_dependency "jquery-rails"
+  s.add_dependency "jquery-turbolinks"
+  s.add_dependency "jquery-ui-rails"
+  s.add_dependency "rails-assets-blueimp-load-image"
+  s.add_dependency "rails-assets-blueimp-canvas-to-blob"
+  s.add_dependency "rails-assets-blueimp-file-upload"
+  s.add_dependency "rails-assets-blueimp-tmpl"
 
   s.add_development_dependency "capybara"
   s.add_development_dependency "database_cleaner"
@@ -30,3 +36,4 @@ Gem::Specification.new do |s|
   s.add_development_dependency "simplecov"
   s.add_development_dependency "sqlite3"
 end
+
