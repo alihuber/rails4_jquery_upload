@@ -15,6 +15,11 @@
  *= require blueimp-file-upload
  */
 
+.jquery-upload-buttonbar .btn-file {
+    position: relative;
+    overflow: hidden;
+}
+
 .jquery-upload-buttonbar .btn-file input[type=file] {
     position: absolute;
     top: 0;
