@@ -9,7 +9,6 @@ module Rails4JqueryUpload
                           cancel_all_button: true,
                           delete_all_button: true)
       model_name_for_form = target_model.gsub("/", "_").gsub("_", "-")
-      binding.pry
       html = hidden_inputs(target_model, uploader_mounted_to).html_safe
 
       html << buttonbar(engine_mounted_to, model_name_for_form, auto_upload).html_safe
