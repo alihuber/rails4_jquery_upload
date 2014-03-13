@@ -8,13 +8,15 @@ module Rails4JqueryUpload
                           start_all_button: true,
                           cancel_all_button: true,
                           delete_all_button: true)
-      target_model = target_model.pluralize
+      model_name_for_form = target_model.gsub("/", "_").gsub("_", "-")
+      binding.pry
       html = hidden_inputs(target_model, uploader_mounted_to).html_safe
-      html << buttonbar(engine_mounted_to, target_model, auto_upload).html_safe
+
+      html << buttonbar(engine_mounted_to, model_name_for_form, auto_upload).html_safe
       html << start_all_button_html.html_safe if start_all_button
       html << cancel_all_button_html.html_safe if cancel_all_button
       html << delete_all_button_html.html_safe if delete_all_button
-      html << files_table_html(target_model).html_safe
+      html << files_table_html(model_name_for_form).html_safe
       html << download_template_html.html_safe
       html << upload_template_html.html_safe
     end
@@ -157,7 +159,9 @@ module Rails4JqueryUpload
                   {% } else { %}
                       <button class='btn btn-warning cancel'>
                           <span class='glyphicon glyphicon-ban-circle'></span>
-                          <span>Cancel</span>
+                          <span>" +
+                          t("cancel_upload") +
+                          "</span>
                       </button>
                   {% } %}
               </td>
