@@ -4,5 +4,4 @@ Rails.application.routes.draw do
 
   root "tasks#index"
   resources :tasks
-  resources :attachments, :only => [:create, :destroy]
 end

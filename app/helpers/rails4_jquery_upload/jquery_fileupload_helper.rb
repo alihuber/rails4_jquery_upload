@@ -83,7 +83,7 @@ module Rails4JqueryUpload
 
 
     def upload_template_html
-      "<script id='template-upload' type='text/x-tmpl'>
+      %Q{<script id='template-upload' type='text/x-tmpl'>
       {% for (var i=0, file; file=o.files[i]; i++) { %}
           <tr class='template-upload fade'>
               <td>
@@ -101,27 +101,27 @@ module Rails4JqueryUpload
                   {% if (!i && !o.options.autoUpload) { %}
                       <button class='btn btn-primary start' disabled>
                           <span class='glyphicon glyphicon-upload'></span>
-                          <span>" +
-                          t("start_upload") +
-                          "</span>
+                          <span>
+                          #{t('start_upload')}
+                          </span>
                       </button>
                   {% } %}
                   {% if (!i) { %}
                       <button class='btn btn-warning cancel'>
                           <span class='glyphicon glyphicon-ban-circle'></span>
-                          <span>" +
-                          t("cancel_upload") +
-                        "</span>
+                          <span>
+                          #{t('cancel_upload')}
+                        </span>
                       </button>
                   {% } %}
               </td>
           </tr>
       {% } %}
-      </script>"
+      </script>}
     end
 
     def download_template_html
-      "<script id='template-download' type='text/x-tmpl'>
+      %Q{<script id='template-download' type='text/x-tmpl'>
       {% for (var i=0, file; file=o.files[i]; i++) { %}
           <tr class='template-download fade'>
               <td>
@@ -150,24 +150,25 @@ module Rails4JqueryUpload
                   {% if (file.delete_url) { %}
                       <button class='btn btn-danger delete delete-elem' data-method='delete' data-url='{%=file.delete_url%}'{% if (file.deleteWithCredentials) { %} data-xhr-fields='{'withCredentials':true}'{% } %}>
                           <span class='glyphicon glyphicon-trash'></span>
-                          <span>" +
-                          t("delete_upload") +
-                          "</span>
+                          <span>
+                          #{t('delete_upload')}
+                          </span>
                       </button>
                       <input type='checkbox' name='delete' value='1' class='toggle'>
                   {% } else { %}
                       <button class='btn btn-warning cancel'>
                           <span class='glyphicon glyphicon-ban-circle'></span>
-                          <span>" +
-                          t("cancel_upload") +
-                          "</span>
+                          <span>
+                          #{t('cancel_upload')}
+                          </span>
                       </button>
                   {% } %}
               </td>
           </tr>
       {% } %}
-      </script>"
+      </script>}
     end
 
   end
 end
+

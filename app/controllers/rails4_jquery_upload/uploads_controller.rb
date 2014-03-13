@@ -32,11 +32,14 @@ module Rails4JqueryUpload
       end
     end
 
+
     def destroy
-      @attachment = Attachment.find(params[:id])
-      @attachment.destroy
+      id    = params[:id]
+      model = params[:model]
+      model.camelize.singularize.constantize.find(id).destroy
       render :json => true
     end
+
 
     private
     def json_hash(name, model, mountpoint)
@@ -45,7 +48,7 @@ module Rails4JqueryUpload
         "size" => model.send("#{mountpoint}").size,
         "url" => model.send("#{mountpoint}").url,
         "thumbnail_url" => model.send("#{mountpoint}").thumb.url,
-        "delete_url" => "/#{name}/#{model.id}",
+        "delete_url" => "/rails4_jquery_upload/uploads/#{name}/#{model.id}",
         "delete_type" => "DELETE"
       }
     end
