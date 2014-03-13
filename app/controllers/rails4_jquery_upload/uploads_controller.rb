@@ -4,7 +4,7 @@ module Rails4JqueryUpload
     def create
       names = params.keys.select { |key| key.start_with?("hidden") }
       names = names.map! { |name| name = name.gsub("hidden_", "") }
-      models = names.map { |model| model.capitalize.singularize.constantize }
+      models = names.map { |model| model.camelize.singularize.constantize }
       data = Hash[names.zip(models)]
       mountpoint = params.keys.select { |key| key.start_with?("uploader_mounted_to") }
       mountpoint = mountpoint.first.gsub("uploader_mounted_to_", "")
