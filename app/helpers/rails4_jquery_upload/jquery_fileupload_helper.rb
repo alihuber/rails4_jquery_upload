@@ -31,7 +31,7 @@ module Rails4JqueryUpload
 
     def buttonbar(engine_mounted_to, target_model, auto_upload)
       "<div class='jquery-upload-buttonbar'>
-         <span class='btn btn-success btn-file'>
+         <span class='btn btn-default btn-file'>
            <span class='glyphicon glyphicon-plus'></span>" +
       t("add_files") +
       add_files_button_html(engine_mounted_to, target_model, auto_upload)
@@ -48,21 +48,21 @@ module Rails4JqueryUpload
     end
 
     def start_all_button_html
-      "<span class='btn btn-primary start' type='submit'>
+      "<span class='btn btn-default start' type='submit'>
         <span class='glyphicon glyphicon-upload'></span>" +
         t("start_upload_global") +
       "</span> "
     end
 
     def cancel_all_button_html
-      "<span class='btn btn-warning cancel' type='reset'>
+      "<span class='btn btn-default cancel' type='reset'>
         <span class='glyphicon glyphicon-ban-circle'></span>" +
         t("cancel_upload_global") +
       "</span> "
     end
 
     def delete_all_button_html
-      "<span class='btn btn-danger delete' type='button'>
+      "<span class='btn btn-default delete' type='button'>
         <span class='glyphicon glyphicon-trash'></span>" +
         t("delete_upload_global") +
       "</span>
@@ -99,7 +99,7 @@ module Rails4JqueryUpload
               </td>
               <td>
                   {% if (!i && !o.options.autoUpload) { %}
-                      <button class='btn btn-primary start' disabled>
+                      <button class='btn btn-default start' disabled>
                           <span class='glyphicon glyphicon-upload'></span>
                           <span>
                           #{t('start_upload')}
@@ -107,7 +107,7 @@ module Rails4JqueryUpload
                       </button>
                   {% } %}
                   {% if (!i) { %}
-                      <button class='btn btn-warning cancel'>
+                      <button class='btn btn-default cancel'>
                           <span class='glyphicon glyphicon-ban-circle'></span>
                           <span>
                           #{t('cancel_upload')}
@@ -148,7 +148,7 @@ module Rails4JqueryUpload
               </td>
               <td>
                   {% if (file.delete_url) { %}
-                      <button class='btn btn-danger delete delete-elem' data-method='delete' data-url='{%=file.delete_url%}'{% if (file.deleteWithCredentials) { %} data-xhr-fields='{'withCredentials':true}'{% } %}>
+                      <button class='btn btn-default delete delete-elem' data-method='delete' data-url='{%=file.delete_url%}'{% if (file.deleteWithCredentials) { %} data-xhr-fields='{'withCredentials':true}'{% } %}>
                           <span class='glyphicon glyphicon-trash'></span>
                           <span>
                           #{t('delete_upload')}
@@ -156,7 +156,7 @@ module Rails4JqueryUpload
                       </button>
                       <input type='checkbox' name='delete' value='1' class='toggle'>
                   {% } else { %}
-                      <button class='btn btn-warning cancel'>
+                      <button class='btn btn-default cancel'>
                           <span class='glyphicon glyphicon-ban-circle'></span>
                           <span>
                           #{t('cancel_upload')}
