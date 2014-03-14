@@ -1,5 +1,6 @@
 module Rails4JqueryUpload
   class UploadsController < ApplicationController
+    include HasUploadConcern
 
     def create
       names = params.keys.select { |key| key.start_with?("hidden") }
@@ -39,20 +40,6 @@ module Rails4JqueryUpload
       model.camelize.singularize.constantize.find(id).destroy
       render :json => true
     end
-
-
-    private
-    def json_hash(name, model, mountpoint)
-      {
-        "name" => model.read_attribute("#{mountpoint}"),
-        "size" => model.send("#{mountpoint}").size,
-        "url" => model.send("#{mountpoint}").url,
-        "thumbnail_url" => model.send("#{mountpoint}").thumb.url,
-        "delete_url" => "/rails4_jquery_upload/uploads/#{name}/#{model.id}",
-        "delete_type" => "DELETE"
-      }
-    end
-
   end
 end
 

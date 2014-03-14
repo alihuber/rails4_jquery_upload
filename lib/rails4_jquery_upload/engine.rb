@@ -16,6 +16,10 @@ module Rails4JqueryUpload
       ::ApplicationController.class_eval do
 
         helper Rails4JqueryUpload::Engine.helpers
+
+        def self.has_jquery_uploads
+          include Rails4JqueryUpload::HasUploadConcern
+        end
       end
     end
 
