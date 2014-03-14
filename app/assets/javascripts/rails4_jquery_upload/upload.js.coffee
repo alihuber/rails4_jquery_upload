@@ -43,9 +43,3 @@ $(document).ready ->
       $("tbody.#{target}-files").find(".toggle:checked").closest(".template-download").find(".delete").click()
       $(".delete-toggle").prop "checked", false
 
-
-    $("#submit_task").click ->
-      ids = []
-      $(".delete-elem").each ->
-        ids.push $(this).attr("data-url").replace("/#{target}/", "")
-      $("#submitted_#{target}").val ids

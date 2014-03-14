@@ -67,7 +67,7 @@ class TasksController < ApplicationController
       "size" => model.send("#{mountpoint}").size,
       "url" => model.send("#{mountpoint}").url,
       "thumbnail_url" => model.send("#{mountpoint}").thumb.url,
-      "delete_url" => "/#{name}/#{model.id}",
+      "delete_url" => "/rails4_jquery_upload/uploads/#{name}/#{model.id}",
       "delete_type" => "DELETE"
     }
   end
