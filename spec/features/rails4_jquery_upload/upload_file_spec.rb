@@ -28,8 +28,8 @@ feature "File uploading" do
       expect(page.all("tr.template-upload.fade.in").count).to eq 2
       expect(page.all("span.preview").count).to eq 2
 
-      within("div.buttonbar") do
-        find("span.btn-warning.cancel").click
+      within("div.jquery-upload-buttonbar") do
+        find("span.btn-default.cancel").click
       end
 
       expect(page).to have_no_css "tr.template-upload.fade.in"
@@ -37,57 +37,70 @@ feature "File uploading" do
     end
 
 
+    scenario "upload files", :js do
+      # Rails.root = /rails4_jquery_upload/spec/dummy
+      # upload single file with global upload button
+      attach_file("files[]", "#{Rails.root}/spec/fixtures/question_mark.png")
+
+      expect(page).to have_css "tr.template-upload.fade.in"
+      expect(page).to have_css "span.preview"
+
+      click_button "Start"
+      expect(page).to have_css "button.delete-elem"
+
+      expect(Attachment.count).to eql 1
+      # /tmp/uploads/attachment/file/17/question_mark.png
+      expect(page).to have_link("question_mark.png",
+        href: "/tmp/uploads/attachment/file/#{Attachment.last.id}/question_mark.png")
 
 
-    # scenario "upload files", :js do
-    #   # Rails.root = /rails4_jquery_upload/spec/dummy
-    #   attach_file("files[]", "#{Rails.root}/spec/fixtures/question_mark.png")
-
-    #   expect(page).to have_css "tr.template-upload.fade.in"
-    #   expect(page).to have_css "span.preview"
-
-    #   click_button "Start"
-    #   expect(page).to have_css "button.delete-elem"
-
-    #   expect(Attachment.count).to eql 1
-    #   # /tmp/uploads/attachment/file/17/question_mark.png
-    #   expect(page).to have_link("question_mark.png",
-    #     href: "/tmp/uploads/attachment/file/#{Attachment.last.id}/question_mark.png")
-
-    #   attach_file("files[]", ["#{Rails.root}/spec/fixtures/question_mark.png",
-    #                             "#{Rails.root}/spec/fixtures/question_mark.png"
-    #   ])
-    #   page.all("button.btn.btn-primary.start").each do |button|
-    #     button.click
-    #     sleep(3)
-    #   end
-    #   expect(Attachment.count).to eq 3
-    #   expect(page).to have_link("question_mark.png",
-    #     href: "/tmp/uploads/attachment/file/#{Attachment.last.id}/question_mark.png")
-
-    #   attach_file("files[]", ["#{Rails.root}/spec/fixtures/question_mark.png",
-    #                             "#{Rails.root}/spec/fixtures/question_mark.png"
-    #   ])
-    #   within("div.buttonbar") do
-    #     find("span.btn-primary.start").click
-    #     sleep(3)
-    #   end
-    #   expect(Attachment.count).to eq 5
-    #   expect(page).to have_link("question_mark.png",
-    #     href: "/tmp/uploads/attachment/file/#{Attachment.last.id}/question_mark.png")
-    # end
+      # upload multiple files by global upload button
+      attach_file("files[]", ["#{Rails.root}/spec/fixtures/question_mark2.png",
+                                "#{Rails.root}/spec/fixtures/question_mark.png"
+      ])
+      expect(page).to have_css "tr.template-upload.fade.in", count: 2
+      within("div.jquery-upload-buttonbar") do
+        find("span.btn-default.start").click
+      end
+      expect(page).to have_no_css "tr.template-upload.fade.in"
+      expect(page).to have_css "span.preview", count: 3
+      expect(page).to have_css "button.delete.delete-elem", count: 3
+      expect(page).to have_link("question_mark2.png")
+      expect(Attachment.count).to eq 3
 
 
-    # scenario "add files and delete them again", :js do
-    #   attach_file("files[]", ["#{Rails.root}/spec/fixtures/question_mark.png",
-    #                             "#{Rails.root}/spec/fixtures/question_mark.png"
-    #   ])
-    #   within("div.buttonbar") do
-    #     find("span.btn-primary.start").click
-    #   end
-    #   sleep(3)
-    #   expect(Attachment.count).to eq 2
-    # end
+      # upload multiple files by click on individual start buttons
+      attach_file("files[]", ["#{Rails.root}/spec/fixtures/question_mark.png",
+                                "#{Rails.root}/spec/fixtures/question_mark.png"
+      ])
+      expect(page).to have_css "tr.template-upload.fade.in", count: 2
+      page.all("button.btn.btn-default.start").each do |button|
+        button.click
+      end
+      expect(page).to have_no_css "tr.template-upload.fade.in"
+      expect(page).to have_css "span.preview", count: 5
+      expect(page).to have_css "button.delete.delete-elem", count: 5
+      expect(page).to have_link("question_mark.png",
+        href: "/tmp/uploads/attachment/file/#{Attachment.last.id}/question_mark.png")
+      expect(Attachment.count).to eq 5
+    end
+
+
+    scenario "add files and delete them again", :js do
+      attach_file("files[]", ["#{Rails.root}/spec/fixtures/question_mark.png",
+                                "#{Rails.root}/spec/fixtures/question_mark2.png"
+      ])
+      expect(page).to have_css "tr.template-upload.fade.in", count: 2
+      within("div.jquery-upload-buttonbar") do
+        find("span.btn-default.start").click
+      end
+      expect(page).to have_no_css "tr.template-upload.fade.in"
+      expect(page).to have_css "span.preview", count: 2
+      expect(page).to have_css "button.delete.delete-elem", count: 2
+      expect(page).to have_link("question_mark.png")
+      expect(page).to have_link("question_mark2.png")
+      expect(Attachment.count).to eq 2
+    end
   end
 
 end
