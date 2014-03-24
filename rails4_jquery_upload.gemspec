@@ -21,7 +21,6 @@ Gem::Specification.new do |s|
   s.add_dependency "uglifier",     "~> 2.4"
 
   s.add_dependency "jquery-rails"
-  s.add_dependency "jquery-turbolinks"
   s.add_dependency "jquery-ui-rails"
   s.add_dependency "rails-assets-blueimp-load-image"
   s.add_dependency "rails-assets-blueimp-canvas-to-blob"
