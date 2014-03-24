@@ -1,5 +1,6 @@
 class FileUploader < CarrierWave::Uploader::Base
  include CarrierWave::MiniMagick
+ include CarrierWave::MimeTypes
 
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
@@ -17,8 +18,25 @@ class FileUploader < CarrierWave::Uploader::Base
 
   process :resize_to_fit => [800, 800]
 
-  version :thumb do
-    process :resize_to_fill => [100, 100]
+  version :thumb, :if => :thumbable? do
+    process :convert => "jpg"
+    process :resize_to_fill => [100,100]
+    process :set_content_type
+  end
+
+
+  private
+
+  def thumbable?(file)
+    image?(file) || pdf?(file)
+  end
+
+  def image?(file)
+    file.content_type.include? 'image'
+  end
+
+  def pdf?(file)
+    file.content_type == 'application/pdf'
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
