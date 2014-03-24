@@ -7,12 +7,23 @@ module Rails4JqueryUpload
                           auto_upload: false,
                           start_all_button: true,
                           cancel_all_button: true,
-                          delete_all_button: true)
+                          delete_all_button: true,
+                          filetypes: "undefined",
+                          max_files: "undefined",
+                          max_file_size_mb: "undefined",
+                          preview_max_width: 80,
+                          preview_max_height: 80)
       model_name_for_form = target_model.gsub("/", "_").gsub("_", "-")
       html = hidden_inputs(target_model, uploader_mounted_to).html_safe
 
-      html << buttonbar(engine_mounted_to, model_name_for_form, auto_upload).html_safe
-      html << start_all_button_html.html_safe if start_all_button
+      html << buttonbar(engine_mounted_to,
+                        model_name_for_form,
+                        auto_upload, filetypes,
+                        max_files,
+                        max_file_size_mb,
+                        preview_max_width,
+                        preview_max_height).html_safe
+      html << start_all_button_html.html_safe  if start_all_button
       html << cancel_all_button_html.html_safe if cancel_all_button
       html << delete_all_button_html.html_safe if delete_all_button
       html << files_table_html(model_name_for_form).html_safe
@@ -29,19 +40,30 @@ module Rails4JqueryUpload
     end
 
 
-    def buttonbar(engine_mounted_to, target_model, auto_upload)
+    def buttonbar(engine_mounted_to, target_model, auto_upload, filetypes,
+                  max_files, max_file_size_mb, preview_max_width,
+                  preview_max_height)
       "<div class='jquery-upload-buttonbar'>
          <span class='btn btn-default btn-file'>
            <span class='glyphicon glyphicon-plus'></span>" +
       t("add_files") +
-      add_files_button_html(engine_mounted_to, target_model, auto_upload)
+      add_files_button_html(engine_mounted_to, target_model, auto_upload,
+                            filetypes, max_files, max_file_size_mb,
+                            preview_max_width, preview_max_height)
     end
 
 
-    def add_files_button_html(engine_mounted_to, target_model, auto_upload)
+    def add_files_button_html(engine_mounted_to, target_model, auto_upload,
+                              filetypes, max_files, max_file_size_mb,
+                              preview_max_width, preview_max_height)
       "<input data-url='#{engine_mounted_to}/uploads'"\
       "data-auto-upload='#{auto_upload}'"\
       "data-target-model='#{target_model}'"\
+      "data-max-files='#{max_files}'"\
+      "data-filetypes='#{filetypes}'"\
+      "data-max-filesize='#{max_file_size_mb}'"\
+      "data-preview-max-width='#{preview_max_width}'"\
+      "data-preview-max-height='#{preview_max_height}'"\
       "id='#{target_model}-fileupload' method='patch'"\
       "multiple='multiple' name='files[]' type='file'>"\
       "</span> "

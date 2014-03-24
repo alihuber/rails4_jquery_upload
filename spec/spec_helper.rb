@@ -19,7 +19,7 @@ require "capybara/poltergeist"
 #   Capybara::Poltergeist::Driver.new(app, js_errors: false, inspector: true)
 # end
 Capybara.javascript_driver = :poltergeist
-Capybara.default_wait_time = 10
+Capybara.default_wait_time = 20
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -41,7 +41,7 @@ RSpec.configure do |config|
   # order dependency and want to debug it, you can fix the order by providing
   # the seed, which is printed after each run.
   #     --seed 1234
-  config.order = "random"
+  # config.order = "random"
 
 
   config.before :suite do

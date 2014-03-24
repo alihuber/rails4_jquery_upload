@@ -20,6 +20,7 @@
 //= require blueimp-canvas-to-blob
 //= require blueimp-file-upload/jquery.fileupload
 //= require blueimp-file-upload/jquery.fileupload-process
+//= require blueimp-file-upload/jquery.fileupload-validate
 //= require blueimp-file-upload/jquery.fileupload-image
 //= require blueimp-file-upload/jquery.fileupload-ui
 //= require_self
