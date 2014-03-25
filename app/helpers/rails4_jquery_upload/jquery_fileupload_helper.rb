@@ -8,6 +8,7 @@ module Rails4JqueryUpload
                           start_all_button: true,
                           cancel_all_button: true,
                           delete_all_button: true,
+                          checkboxes: true,
                           filetypes: "undefined",
                           max_files: "undefined",
                           max_file_size_mb: "undefined",
@@ -27,7 +28,7 @@ module Rails4JqueryUpload
       html << cancel_all_button_html.html_safe if cancel_all_button
       html << delete_all_button_html.html_safe if delete_all_button
       html << files_table_html(model_name_for_form).html_safe
-      html << download_template_html.html_safe
+      html << download_template_html(checkboxes).html_safe
       html << upload_template_html.html_safe
     end
 
@@ -142,8 +143,8 @@ module Rails4JqueryUpload
       </script>}
     end
 
-    def download_template_html
-      %Q{<script id='template-download' type='text/x-tmpl'>
+    def download_template_html(checkboxes)
+      out = %Q[<script id='template-download' type='text/x-tmpl'>
       {% for (var i=0, file; file=o.files[i]; i++) { %}
           <tr class='template-download fade'>
               <td>
@@ -175,9 +176,9 @@ module Rails4JqueryUpload
                           <span>
                           #{t('delete_upload')}
                           </span>
-                      </button>
-                      <input type='checkbox' name='delete' value='1' class='toggle'>
-                  {% } else { %}
+                      </button>]
+                  out << "<input type='checkbox' name='delete' value='1' class='toggle'>" if checkboxes
+                  out << %Q[{% } else { %}
                       <button class='btn btn-default cancel'>
                           <span class='glyphicon glyphicon-ban-circle'></span>
                           <span>
@@ -188,7 +189,8 @@ module Rails4JqueryUpload
               </td>
           </tr>
       {% } %}
-      </script>}
+      </script>]
+      out
     end
 
   end
