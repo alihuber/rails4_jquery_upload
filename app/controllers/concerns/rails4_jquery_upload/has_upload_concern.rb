@@ -5,6 +5,9 @@ module Rails4JqueryUpload
     private
 
     def jquery_upload_json_response(upload_models, name, mountpoint)
+      unless upload_models.respond_to? :map
+        upload_models = [] << upload_models
+      end
       render :json => upload_models.map { |model|
         json_hash(name, model, mountpoint)
       }.to_json
@@ -22,7 +25,11 @@ module Rails4JqueryUpload
     end
 
     def jquery_upload_model_ids(hidden_field_name)
-      params[hidden_field_name].split(",")
+      if params[hidden_field_name]
+        params[hidden_field_name].split(",")
+      else
+        nil
+      end
     end
 
   end
