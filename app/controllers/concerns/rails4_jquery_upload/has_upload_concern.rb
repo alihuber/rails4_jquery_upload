@@ -8,9 +8,11 @@ module Rails4JqueryUpload
       unless upload_models.respond_to? :map
         upload_models = [] << upload_models
       end
-      render :json => upload_models.map { |model|
-        json_hash(name, model, mountpoint)
-      }.to_json
+      if upload_models.any?
+        render :json => upload_models.map { |model|
+          json_hash(name, model, mountpoint)
+        }.to_json
+      end
     end
 
     def json_hash(name, model, mountpoint)
