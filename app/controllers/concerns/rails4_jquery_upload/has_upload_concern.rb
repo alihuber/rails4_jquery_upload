@@ -12,6 +12,8 @@ module Rails4JqueryUpload
         render :json => upload_models.map { |model|
           json_hash(name, model, mountpoint)
         }.to_json
+      else
+        render :json => {}.to_json
       end
     end
 
