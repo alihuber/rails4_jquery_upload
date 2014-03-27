@@ -177,7 +177,7 @@ module Rails4JqueryUpload
                           #{t('delete_upload')}
                           </span>
                       </button>]
-                  out << "<input type='checkbox' name='delete' value='1' class='toggle'>" if checkboxes
+                  out << "\n<input type='checkbox' name='delete' value='1' class='toggle'>\n" if checkboxes
                   out << %Q[{% } else { %}
                       <button class='btn btn-default cancel'>
                           <span class='glyphicon glyphicon-ban-circle'></span>
