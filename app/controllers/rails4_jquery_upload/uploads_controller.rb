@@ -10,36 +10,48 @@ module Rails4JqueryUpload
       mountpoint = params.keys.select { |key| key.start_with?("uploader_mounted_to") }
       mountpoint = mountpoint.first.gsub("uploader_mounted_to_", "")
 
-      data.each do |name, model|
-        params[:files].each do |file|
-          upload = model.new
-          upload.send("#{mountpoint}=", file)
-          if upload.save
-            respond_to do |format|
-              format.html {
-                render :json => [json_hash(name, upload, mountpoint)].to_json,
-                :content_type => "text/html",
-                :layout => false
-              }
-              format.json {
-                out = { "files" => [json_hash(name, upload, mountpoint)] }.to_json
-                render :json => out
-              }
+      data.each do |model_name, model|
+        if can_upload?(model_name)
+          data.each do |name, model|
+            params[:files].each do |file|
+              upload = model.new
+              upload.send("#{mountpoint}=", file)
+              if upload.save
+                respond_to do |format|
+                  format.html {
+                    render :json => [json_hash(name, upload, mountpoint)].to_json,
+                    :content_type => "text/html",
+                    :layout => false
+                  }
+                  format.json {
+                    out = { "files" => [json_hash(name, upload, mountpoint)] }.to_json
+                    render :json => out
+                  }
+                end
+              else
+                render :json => [{:error => "custom_failure"}], :status => 304 and return
+              end
             end
-          else
-            render :json => [{:error => "custom_failure"}], :status => 304 and return
           end
+        else
+          render :json => [{:error => "not_allowed"}], :status => 502
         end
       end
+
     end
 
 
     def destroy
       id    = params[:id]
       model = params[:model]
-      model.camelize.singularize.constantize.find(id).destroy
-      render :json => true
+      if can_delete?(model)
+        model.camelize.singularize.constantize.find(id).destroy
+        render :json => true
+      else
+        render :json => [{:error => "not_allowed"}], :status => 502
+      end
     end
+
   end
 end
 

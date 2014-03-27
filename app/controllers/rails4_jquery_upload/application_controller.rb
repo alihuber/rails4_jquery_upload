@@ -1,4 +1,4 @@
 module Rails4JqueryUpload
-  class ApplicationController < ActionController::Base
+  class ApplicationController < ::ApplicationController
   end
 end
