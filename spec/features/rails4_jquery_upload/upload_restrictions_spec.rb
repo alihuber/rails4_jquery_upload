@@ -16,6 +16,11 @@ feature "Restrictions on uploading" do
   describe "uploading attachments with restrictions" do
 
     context "with restriction checks returning true", :js do
+      allow_any_instance_of(ApplicationController)
+        .to receive(:can_upload?).and_return(true)
+      allow_any_instance_of(ApplicationController)
+        .to receive(:can_delete?).and_return(true)
+
       scenario "attachments can be uploaded" do
         visit root_path
         click_link "New Task"
