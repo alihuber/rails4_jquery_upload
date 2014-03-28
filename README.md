@@ -50,7 +50,7 @@ Say, you mounted the engine like above, have an "`attachment`"-model with the ca
 
 This gives you a "Basic Plus UI" uploader form with grey buttons:    
 
-[<img src="http://i.imgur.com/20BG5kB.png">]
+<img src="http://i.imgur.com/20BG5kB.png">
 
 
     
