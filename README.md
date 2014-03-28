@@ -8,7 +8,7 @@ Example usage is shown in the spec/dummy directory.
 
 ## Features
 * Abstracts away the need for any additional code in the model
-* Provides convienient helper methods for building the proper JSON response and a configurable upload form in the view
+* Provides convenient helper methods for building the proper JSON response and a configurable upload form in the view
 * Requires minimal JavaScript and controller setup
 * File uploader agnostic, works with carrierwave, should work with dragonfly (untested)
 * Encapsulates all needed gems in one engine
@@ -42,7 +42,7 @@ and you're good to go!
 ### View
 The `jquery_fileupload` helper method includes all the necessary HTML for including the uploader form in your view and takes the following required arguments:
 
-        = jquery_fileupload("/engine_mountpoint", "model_name_plural", "uploader_attached_attribute")
+    = jquery_fileupload("/engine_mountpoint", "model_name_plural", "uploader_attached_attribute")
 
 Say, you mounted the engine like above, have an "`attachment`"-model with the carrierwave uploader mounted to the "`file`"-column, so your call would look like this:
 
