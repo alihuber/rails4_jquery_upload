@@ -9,7 +9,7 @@ default: &default
   encoding: unicode
   database: rails4_jquery_upload_engine
   pool: 5
-  username: alexander
+  username:
   password:
 
 development:
