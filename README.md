@@ -48,7 +48,7 @@ Say, you mounted the engine like above, have an "`attachment`"-model with the ca
 
     = jquery_fileupload("/rails4_jquery_upload", "attachments", "file")
 
-This gives you a "Basic Plus UI" uploader form with grey buttons:    
+This gives you a "Basic Plus UI" uploader form with grey buttons.    
 
 <img src="http://i.imgur.com/20BG5kB.png">
 
