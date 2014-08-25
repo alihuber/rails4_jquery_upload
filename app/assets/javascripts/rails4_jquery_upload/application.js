@@ -12,7 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery.ui.progressbar
+//= require jquery-ui/progressbar
 //= require bootstrap
 //= require blueimp-tmpl
 //= require blueimp-load-image
