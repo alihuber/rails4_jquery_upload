@@ -24,7 +24,7 @@ Add the engine and the rails-assets source to your `Gemfile`:
     gem "rails4_jquery_upload", git: "alihuber/rails4_jquery_upload", branch: "master"
 then `bundle install`.
     
-In your `routes.rb` mount the uploader to the destination you desire:    
+In your `routes.rb` mount the engine to the destination you desire:    
 
     mount Rails4JqueryUpload::Engine => "/rails4_jquery_upload"    
 Require the extra CSS and JavaScript:
@@ -40,10 +40,11 @@ and you're good to go! Note that the uploaded file will have to respond to the `
 
 ## Usage
 ### View
-The `jquery_fileupload` helper method includes all the necessary HTML for including the uploader form in your view and takes the following required arguments:
+The `jquery_fileupload` helper method includes all the necessary HTML for including the uploader form in your view and takes the following required arguments (note the '`/`' in front of the engine mountpoint, which is just like the entry in the `routes.rb`-file):
 
-    = jquery_fileupload("/engine_mountpoint", "model_name_plural", "uploader_attached_attribute")
+    = jquery_fileupload("/engine_mountpoint", "pluralized_model", "uploader_mountpoint")
 
+The `uploader_mountpoint` refers to carrierwave's `mount_uploader :column, UploaderClass` method.
 Say, you mounted the engine like above, have an "`attachment`"-model with the carrierwave uploader mounted to the "`file`"-column, so your call would look like this:
 
     = jquery_fileupload("/rails4_jquery_upload", "attachments", "file")
@@ -75,16 +76,17 @@ In some cases you don't want to provide the full UI, so the elements of the "Bas
 `checkboxes: true/false`
 
 ### JavaScript
-The uploader handles the AJAX calls that upload the files and stores them via e.g. carrierwave, but in case you have more models involved more setup is necessary. The demo application in the `spec/dummy` folder implements a simple `belongs_to`/`has_many` scenario between tasks and attachments, and to wire up the relationship and the correct associations by submitting the enclosing model you have to handle the submit yourself.    
-The uploader uses hidden fields to submit the target model name to the controller handling the assignment of uploaded files. In your CoffeeScript file for the enclosing model you would do something like this:    
+rails4_jquery_upload handles the AJAX calls that upload the files in the background and stores them in the database via e.g. carrierwave, but in case you have more models involved more setup is necessary. To give an realistic example, the demo application in the `spec/dummy` folder implements a simple `belongs_to`/`has_many` scenario between tasks and attachments: A task has many attachments, uploads are associated with the "file"-column of attachments. To wire up the relationship and the correct associations by submitting the enclosing "task"-model you have to handle the submit yourself.    
+In your CoffeeScript file for the enclosing model you would do something like this:    
 
     $(document).ready ->
       $("#submit_enclosing_model").click ->
         ids = []
         $(".delete-elem").each ->
-          ids.push $(this).attr("data-url").replace("/engine_mountpoint/uploads/target_model_plural/", "")
-        $("[name='hidden_target_model_plural']").val ids
+          ids.push $(this).attr("data-url").replace("/engine_mountpoint/uploads/pluralized_target_model/", "")
+        $("[name='hidden_pluralized_target_model']").val ids
 
+The uploader uses hidden fields to submit the target model name ("attachments") to the controller handling the assignment of AJAXy uploaded files (`TasksController`).
 For our tasks/attachments scenario the corresponding CoffeeScript looks like this:
 
     $(document).ready ->
@@ -94,16 +96,15 @@ For our tasks/attachments scenario the corresponding CoffeeScript looks like thi
           ids.push $(this).attr("data-url").replace("/rails4_jquery_upload/uploads/attachments/", "")
         $("[name='hidden_attachments']").val ids
 
-That way, minimal setup is required in the `TasksController` for assigning uploaded attachments to the submitted task.
 
 ### Controller
-In the controller you do the actual assignment of already uploaded files to the submitted enclosing model. The engine provides helper methods defined in the `has_upload_concern.rb` file so you don't have to care about the JSON hash the jQuery File Uploader requires from submitted data.    
-First of all, by calling the `has_jquery_uploads` class method which is defined in the engine's `ApplicationController` enables you to use the following methods in any of your controllers:    
+In the controller you do the actual assignment of already AJAXy uploaded files to the enclosing model you are about to save. rails4_jquery_upload provides helper methods defined in `has_upload_concern.rb` so you don't have to care about the JSON hash jQuery File Uploader requires from submitted data.    
+First of all, calling the `has_jquery_uploads` class method enables you to use the following methods in any of your controllers:
 
-`jquery_upload_json_response(upload_models, name, mountpoint)`    
+`jquery_upload_json_response(upload_models, name, file_uploader_mountpoint, engine_mountpoint)`    
 `jquery_upload_model_ids(hidden_field_name)`    
 
-To continue the example from above, the necessary actions have to be taken in the `create`, `edit` and `update` actions of the `TasksController`. In `create` and `update` you handle the assignment of attachments to tasks, the `edit` action has to handle the retrieval of uploaded attachments in a JSON-fashion the uploader understands. Using the provided helper methods, the code for assigning attachments to tasks would look like this (`edit` action accordingly):    
+To continue the example from above, the necessary actions have to be taken in the `create`, `edit` and `update` actions of the `TasksController`. In `create` and `update` you handle the assignment of attachments to tasks, the `edit` action has to handle the retrieval of uploaded attachments via JSON so jQuery File Uploader understands it. Using the provided helper methods, the code for assigning attachments to tasks would look like this (`create` action accordingly):    
 
     def update
       @task = Task.find(params[:id])
@@ -119,18 +120,18 @@ The code to drag all uploaded attachments for a given task from the database in 
       respond_to do |format|
         format.html
         format.json {
-          jquery_upload_json_response(@task.attachments, "attachments", "file")
+          jquery_upload_json_response(@task.attachments, "attachments", "file", "/rails4_jquery_upload")
         }
       end
     end
-You have to supply the objects themselves, and again the target model name in plural and the mountpoint of your file uploader. No more manual fiddling with JSON is required! 
+You have to supply the objects themselves, and again the target model name in plural the mountpoint of your file uploader and the engine mountpoint. No more manual fiddling with JSON is required!
 
 
 ### Model
-Except of mounting your file uploader (carrierwave, dragonfly etc.) no additional setup is necessary.
+Except of configuring your file uploader (carrierwave, dragonfly etc.) no additional setup is necessary.
 
 ### Restricting uploads
-The uploader uses two methods to check for the ability to alter uploads:   
+The uploader uses two methods to check for the ability to alter uploads:    
 `can_upload?(model_name)`and     
 `can_delete?(model_name)`.    
 You have to define those in the `ApplicationController` of the enclosing app, and if you don't want to impose any restrictions, you just let return them `true`. Since in the `ApplicationController` you have access to authentication facilities like `current_user`, you can easily set up rules like this:    
@@ -138,6 +139,16 @@ You have to define those in the `ApplicationController` of the enclosing app, an
     def can_upload?(model_name)
       current_user.admin? && model_name == "attachments"
     end
+
+Keep in mind that not configuring any restrictions lets anyone target the `DELETE` request used by jQuery File Uploader which is not not preferable in most scenarios.
+
+### To recap
+* Call the `jquery_fileupload` helper method in your view
+* Make sure you submit the ids of the already uploaded objects via JavaScript
+* Call the `has_jquery_uploads` class method in your controller
+* Fetch the ids of the uploaded objects in your `create` and `update` actions via `jquery_upload_model_ids`
+* Use `jquery_upload_json_response` in your `edit` action to display uploaded objects
+* Restrict uploads to not expose the `DELETE` request
 
 ## Coming real soon
 * Support for multiple upload forms on one page
