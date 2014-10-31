@@ -7,7 +7,6 @@ require "pry-rails"
 
 require File.expand_path("../dummy/config/environment", __FILE__)
 require "rspec/rails"
-require "rspec/autorun"
 require "database_cleaner"
 
 require "coffee_script"
@@ -30,7 +29,6 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
 
 RSpec.configure do |config|
-  config.treat_symbols_as_metadata_keys_with_true_values = true
   config.run_all_when_everything_filtered                = true
   config.filter_run                                        :focus
   config.filter_run_excluding                              :js

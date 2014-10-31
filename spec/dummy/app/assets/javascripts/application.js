@@ -11,5 +11,6 @@
 // about supported directives.
 //
 //= require jquery
+//= require bootstrap-sprockets
 //= require rails4_jquery_upload/application
 //= require_tree .
