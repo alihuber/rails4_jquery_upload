@@ -35,7 +35,7 @@ Require the extra CSS and JavaScript:
     /* app/assets/stylesheets/application.css.scss: */
      *= require rails4_jquery_upload/application
 
-and you're good to go!
+and you're good to go! Note that the uploaded file will have to respond to the `thumb`-property, which is normally configured in the used file uploader itself, e.g. the `version :thumb` method in carrierwave.
 
 
 ## Usage
