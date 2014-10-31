@@ -18,7 +18,7 @@ require "capybara/poltergeist"
 #   Capybara::Poltergeist::Driver.new(app, js_errors: false, inspector: true)
 # end
 Capybara.javascript_driver = :poltergeist
-Capybara.default_wait_time = 20
+Capybara.default_wait_time = 4
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.

@@ -139,7 +139,7 @@ feature "File uploading" do
       expect(Task.count).to eq 1
       expect(Task.last.attachments.count).to eq 2
       expect(page).to have_text "test_task"
-      expect(page).to have_xpath("html/body/div[2]/table/tbody/tr/td[3]/img[@alt='Question mark2']")
+      expect(page).to have_xpath("html/body/div[2]/table/tbody/tr/td[3]/img[@alt='Thumb question mark2']")
     end
 
     scenario "remove an present attachment", :js do
