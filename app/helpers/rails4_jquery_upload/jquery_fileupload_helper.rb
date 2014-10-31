@@ -15,7 +15,9 @@ module Rails4JqueryUpload
                           preview_max_width: 80,
                           preview_max_height: 80)
       model_name_for_form = target_model.gsub("/", "_").gsub("_", "-")
-      html = hidden_inputs(target_model, uploader_mounted_to).html_safe
+      html = hidden_inputs(
+        target_model, uploader_mounted_to, engine_mounted_to
+      ).html_safe
 
       html << buttonbar(engine_mounted_to,
                         model_name_for_form,
@@ -33,11 +35,13 @@ module Rails4JqueryUpload
     end
 
 
-    def hidden_inputs(target_model, uploader_mounted_to)
+    def hidden_inputs(target_model, uploader_mounted_to, engine_mounted_to)
       "<input name='hidden_#{target_model}' type='hidden' "\
       "id='submitted_#{target_model}' value></input> " +
       "<input name='uploader_mounted_to_#{uploader_mounted_to}' "\
-      "type='hidden' id='uploader_mounted_to_#{uploader_mounted_to}' value></input>"
+      "type='hidden' id='uploader_mounted_to_#{uploader_mounted_to}' value></input>" +
+      "<input name='engine_mounted_to_#{engine_mounted_to}' "\
+      "type='hidden' id='engine_mounted_to_#{engine_mounted_to}' value></input>"
     end
 
 

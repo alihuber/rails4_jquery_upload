@@ -13,8 +13,8 @@ class TasksController < ApplicationController
 
   def create
     @task = Task.new(task_parameters)
-    attachment_ids = jquery_upload_model_ids("hidden_attachments")
-    @task.attachments << Attachment.find(attachment_ids)
+    fetch_uploaded_ids
+    @task.attachments << Attachment.find(@attachment_ids)
     if @task.save
       @tasks = Task.all
       render "index"
@@ -32,15 +32,17 @@ class TasksController < ApplicationController
     respond_to do |format|
       format.html
       format.json {
-        jquery_upload_json_response(@task.attachments, "attachments", "file")
+        jquery_upload_json_response(
+          @task.attachments, "attachments", "file", "/rails4_jquery_upload"
+        )
       }
     end
   end
 
   def update
     @task = Task.find(params[:id])
-    attachment_ids = jquery_upload_model_ids("hidden_attachments")
-    @task.attachments = Attachment.find(attachment_ids)
+    fetch_uploaded_ids
+    @task.attachments = Attachment.find(@attachment_ids)
     if @task.update(task_parameters)
       @tasks = Task.all
       render "index"
@@ -58,6 +60,10 @@ class TasksController < ApplicationController
   private
   def task_parameters
     params.require(:task).permit(:title, :description)
+  end
+
+  def fetch_uploaded_ids
+    @attachment_ids = jquery_upload_model_ids("hidden_attachments")
   end
 end
 

@@ -36,7 +36,6 @@ feature "File uploading" do
       expect(page).to have_no_css "span.preview"
     end
 
-
     scenario "upload files", :js do
       # Rails.root = /rails4_jquery_upload/spec/dummy
       # upload single file with global upload button
@@ -88,7 +87,6 @@ feature "File uploading" do
         href: "/tmp/uploads/attachment/file/#{Attachment.last.id}/question_mark.png")
       expect(Attachment.count).to eq 5
     end
-
 
     scenario "add files and delete them again", :js do
       attach_file("files[]", ["#{Rails.root}/spec/fixtures/question_mark.png",
@@ -189,9 +187,6 @@ feature "File uploading" do
       expect(page).to have_no_content "question_mark.png"
       expect(Task.last.attachments.count).to eq 0
     end
-
-
   end
-
 end
 
