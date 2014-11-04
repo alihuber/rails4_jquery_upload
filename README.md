@@ -27,13 +27,21 @@ then `bundle install`.
 In your `routes.rb` mount the engine to the destination you desire:    
 
     mount Rails4JqueryUpload::Engine => "/rails4_jquery_upload"    
-Require the extra CSS and JavaScript:
+Make sure to require the necessary Bootstrap/jQuery assets and the extra CSS and JavaScript:
 
-    // app/assets/javascripts/application.js:
+    app/assets/javascripts/application.js:
+    //= require jquery
+    //= require bootstrap-sprockets
+    //= require jquery_ujs
+    ...
     //= require rails4_jquery_upload/application
     
-    /* app/assets/stylesheets/application.css.scss: */
-     *= require rails4_jquery_upload/application
+    
+    app/assets/stylesheets/application.css.scss:
+    @import "bootstrap-sprockets";
+    @import "bootstrap";
+    ...
+    *= require rails4_jquery_upload/application
 
 and you're good to go! Note that the uploaded file will have to respond to the `thumb`-property, which is normally configured in the used file uploader itself, e.g. the `version :thumb` method in carrierwave.
 
